@@ -7,14 +7,15 @@ provider:
   runtime: java8
   region: eu-west-2
   lambdaHashingVersion: 20201221
+  stage: dev
  
 package:
   artifact: target/the-bookclub-api-v0.1.jar
 
 functions:
-  stocks-api:
-    handler: com.serverless.Handler
+  stocks:
+    handler: com.readers.thebookclub.Handler
     events:
       - httpApi:
-          path: stocks
-          method: get
+          path: /get/stocks/{param}
+          method: GET

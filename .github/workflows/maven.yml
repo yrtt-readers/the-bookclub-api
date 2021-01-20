@@ -8,7 +8,7 @@ on:
     branches: [ test-junit ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -17,6 +17,4 @@ jobs:
       with:
         java-version: 1.8
     - name: Test
-      run: mvn test
-    - name: Build
-      run: mvn package --file pom.xml
+      run: mvn test --file pom.xml

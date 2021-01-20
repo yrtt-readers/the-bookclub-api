@@ -4,6 +4,7 @@ frameworkVersion: '2'
 
 provider:
   name: aws
+  profile: serverless
   runtime: java8
   region: eu-west-2
   lambdaHashingVersion: 20201221

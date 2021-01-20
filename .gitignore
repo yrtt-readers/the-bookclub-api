@@ -12,3 +12,6 @@ target
 
 # Serverless directories
 .serverless
+
+# aws credentials directories
+.aws

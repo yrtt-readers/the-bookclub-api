@@ -1,0 +1,28 @@
+Serverless: Packaging service...
+Serverless: Uploading CloudFormation file to S3...
+Serverless: Uploading artifacts...
+Serverless: Uploading service the-bookclub-api-v0.1.jar file to S3 (3.22 MB)...
+Serverless: Validating template...
+Serverless: Updating Stack...
+Serverless: Checking Stack update progress...
+.......
+Serverless: Operation failed!
+Serverless: View the full error output: https://eu-west-2.console.aws.amazon.com/cloudformation/home?region=eu-west-2#/stack/detail?stackId=arn%3Aaws%3Acloudformation%3Aeu-west-2%3A149401881968%3Astack%2Fthe-bookclub-api-dev%2Fee93ccf0-5a96-11eb-b3e9-066f447d62be
+ 
+  Serverless Error ---------------------------------------
+ 
+  An error occurred: StocksLambdaVersionSbSvp1SNQlhNdBRBpYAAXGfTqgcNK2F7Nh3N12hQ - AccessDeniedExceptionnull (Service: AWSLambdaInternal; Status Code: 403; Error Code: AccessDeniedException; Request ID: 3050bd1a-e48f-4982-8f01-78a7cc632740; Proxy: null).
+ 
+  Get Support --------------------------------------------
+     Docs:          docs.serverless.com
+     Bugs:          github.com/serverless/serverless/issues
+     Issues:        forum.serverless.com
+ 
+  Your Environment Information ---------------------------
+     Operating System:          darwin
+     Node Version:              14.15.1
+     Framework Version:         2.19.0
+     Plugin Version:            4.4.2
+     SDK Version:               2.3.2
+     Components Version:        3.4.7
+ 

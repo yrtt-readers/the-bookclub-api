@@ -1,6 +1,6 @@
 # the-bookclub-api
 This api use lambda functions on aws gateway to perform:
-- call to open library api to search books
+- call to OpenLibrary api to search books
 - call to mySql database to input stock
 
 **IMPORTANT**

@@ -61,6 +61,10 @@ public class ApiGatewayResponse {
 
 		public Builder setStatusCode(int statusCode) {
 			this.statusCode = statusCode;
+
+			if(statusCode!=200)
+				LOG.error(ErrorHandler.message.get(statusCode));
+
 			return this;
 		}
 

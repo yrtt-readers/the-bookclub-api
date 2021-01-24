@@ -20,5 +20,5 @@ jobs:
       run: mvn test -Dtest=TestApi#testSetup
     - name: checkStocksByIsbn
       run: mvn test -Dtest=TestApi#checkStocksByIsbn
-    - name: checkStocksByJson
-      run: mvn test -Dtest=TestApi#checkStocksByJson
+    - name: searchBookByIsbn
+      run: mvn test -Dtest=TestApi#searchBookByIsbn

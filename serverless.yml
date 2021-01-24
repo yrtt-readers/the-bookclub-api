@@ -16,31 +16,36 @@ package:
 functions:
   getStocks:
     handler: com.readers.thebookclub.Handler
+    description: pass param as json to return a list of stocks
     events:
       - httpApi:
           path: /get/stocks/{param}
           method: GET
   setStocks:
     handler: com.readers.thebookclub.Handler
+    description: pass param as json to set stock to database
     events:
       - httpApi:
           path: /set/stocks/{param}
           method: POST
+  searchBooks:
+    handler: com.readers.thebookclub.Handler
+    description: pass param as json to return a list of books (not in stock)
+    events:
+      - httpApi:
+          path: /search/books/{param}
+          method: GET
   testStock:
     handler: com.readers.thebookclub.Handler
+    description: test function to return a single stock
     events:
       - httpApi:
           path: /test/stock/{param}
           method: GET
   testInput:
     handler: com.readers.thebookclub.Handler
+    description: test function to validate input
     events:
       - httpApi:
           path: /test/input/{param}
-          method: GET
-  searchBooks:
-    handler: com.readers.thebookclub.Handler
-    events:
-      - httpApi:
-          path: /search/books/{param}
           method: GET

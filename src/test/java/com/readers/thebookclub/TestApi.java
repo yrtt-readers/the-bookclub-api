@@ -36,6 +36,15 @@ public class TestApi {
 
     @Test
     public void checkStocksByJson() {
+		Object param = "{\"param\":\"9780816741342\"}";
+
+		for (Stock stock : new OpenlibraryApiGateway(param).getStocks()){
+			System.out.println(stock.getIsbn());
+			System.out.println(stock.getBookName());
+			System.out.println(stock.getBookAuthors());
+			System.out.println(stock.getThumbnail());
+			System.out.println(stock.getBookDescription());
+		}
     }
 
 	@Test

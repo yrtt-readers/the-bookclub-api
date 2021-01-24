@@ -9,6 +9,8 @@ import java.util.ArrayList;
 public class TestApi {
  
     @Test
+    public void testSetup() {}
+    @Test
     public void checkStocksByIsbn() {
 
 		Stock stock;

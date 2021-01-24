@@ -44,11 +44,12 @@ public class OpenlibraryApiGateway{
             if(this.statusCode!=200)
                 throw new Exception();
 
+            isbnList.add(this.param);
+            
 		    }catch(Exception e){
                 if(this.statusCode!=401)
                     this.statusCode = 503; 
             }
-            isbnList.add(this.param);
     }
 
     private void configParam(Object param){

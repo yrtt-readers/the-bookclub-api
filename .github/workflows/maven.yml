@@ -18,3 +18,5 @@ jobs:
         java-version: 1.8
     - name: checkStocksByIsbn
       run: mvn test -Dtest=TestApi#checkStocksByIsbn
+    - name: checkStocksByJson
+      run: mvn test -Dtest=TestApi#checkStocksByJson

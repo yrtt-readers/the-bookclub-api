@@ -36,6 +36,7 @@ public class OpenlibraryApiGateway{
     public OpenlibraryApiGateway (String isbn){
 
         this();
+        this.isbn = isbn;
         configUrl(isbn);
     }
     public OpenlibraryApiGateway (Object param){
@@ -65,15 +66,15 @@ public class OpenlibraryApiGateway{
                 if(this.statusCode!=401)
                     this.statusCode = 503; 
             }
-
             isbnList.add(this.param);
     }
 
     private void configParam(Object param){
         try{
-            this.param = String.valueOf(
-                new ObjectMapper().readTree(String.valueOf(param))
-                                  .get("param"));
+            this.param = new ObjectMapper()
+                            .readTree(String.valueOf(param))
+                            .get("param").textValue();
+
         }catch(Exception e){  this.statusCode = 401; }
     }
 
@@ -84,8 +85,8 @@ public class OpenlibraryApiGateway{
 
             this.isbn = isbn;
             this.isbnKey = "ISBN:"+isbn;
-            url = new URL(prefix + isbnKey + suffix);
-            detailUrl = new URL(prefix + isbnKey + detailSuffix);
+            this.url = new URL(prefix + this.isbnKey + suffix);
+            this.detailUrl = new URL(prefix + this.isbnKey + detailSuffix);
 
         }catch(Exception e){  this.statusCode = 400; }
     }
@@ -112,8 +113,8 @@ public class OpenlibraryApiGateway{
 
             JsonNode book, bookDetail;
             String bookName="", bookAuthors="", thumbnail="", bookDescription="";
-			book = new ObjectMapper().readTree(url).get(isbnKey);
-            bookDetail = new ObjectMapper().readTree(detailUrl).get(isbnKey);
+			book = new ObjectMapper().readTree(url).get(this.isbnKey);
+            bookDetail = new ObjectMapper().readTree(this.detailUrl).get(this.isbnKey);
 			
             if(book != null){
 			    bookName = String.valueOf(book.get("title"));

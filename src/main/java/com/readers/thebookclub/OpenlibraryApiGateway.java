@@ -53,8 +53,11 @@ public class OpenlibraryApiGateway{
           			.build();											   
 		        HttpResponse<InputStream> response = client.send(request,BodyHandlers.ofInputStream());
     		    BufferedReader br = new BufferedReader(new InputStreamReader(response.body()));
-	    		while(br.readLine()!=null)
-    	    		isbnList.add(br.readLine());                
+                if(response.statusCode()==200)
+    	    		while(br.readLine()!=null)
+        	    		isbnList.add(br.readLine());
+                else
+                    this.statusCode = 503;
             }
             
 		    }catch(Exception e){

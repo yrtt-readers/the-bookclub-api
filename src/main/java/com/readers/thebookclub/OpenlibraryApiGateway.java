@@ -20,19 +20,13 @@ public class OpenlibraryApiGateway{
     private List<String> isbnList;
     private int statusCode;
 
-    public OpenlibraryApiGateway (){
+    private OpenlibraryApiGateway (){
 
         this.prefix = "https://openlibrary.org/api/books?bibkeys=";
         this.searchPrefix = "http://openlibrary.org/search?q=";
         this.suffix = "&jscmd=data&format=json";
         this.detailSuffix = "&jscmd=details&format=json";
         this.statusCode = 200;
-    }
-    public OpenlibraryApiGateway (String isbn){
-
-        this();
-        this.isbn = isbn;
-        configUrl(isbn);
     }
     public OpenlibraryApiGateway (Object param){
 
@@ -86,7 +80,7 @@ public class OpenlibraryApiGateway{
         return stocks;
     }
 
-	public Stock getStock(){
+	private Stock getStock(){
 
 		Stock stock = null;
 

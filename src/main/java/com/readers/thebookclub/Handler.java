@@ -49,10 +49,10 @@ public class Handler implements RequestHandler<Map<String, Object>, ApiGatewayRe
 		}
 		else if(context.getFunctionName().equals("the-bookclub-api-dev-testStock")){
 
-			og = new OpenlibraryApiGateway("9780689853944");
+			og = new OpenlibraryApiGateway(("{\"param\":\"9780689853944\"}"));
 			
 			return ApiGatewayResponse.builder()
-				.setObjectBody(og.getStock())
+				.setObjectBody(og.getStocks())
 				.setStatusCode(og.getStatusCode())
 				.build();
 		}

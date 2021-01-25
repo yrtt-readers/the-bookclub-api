@@ -26,7 +26,7 @@
 ###### https://uu7wl2im1i.execute-api.eu-west-2.amazonaws.com/test/stock/{param}
 - default output of a single stock
 ```
-{"isbn":"9780689853944","qty":0,"bookName":"\"Red Dog\"","bookAuthors":"\"Bill Wallace\"","postCode":null,"thumbnail":"\"https://covers.openlibrary.org/b/id/437328-M.jpg\"","bookDescription":""}
+[{"isbn":"9780689853944","qty":0,"bookName":"\"Red Dog\"","bookAuthors":"\"Bill Wallace\"","postCode":null,"thumbnail":"\"https://covers.openlibrary.org/b/id/437328-M.jpg\"","bookDescription":""}]
 ```
 
 ### testInput:

@@ -34,38 +34,30 @@ public class OpenlibraryApiGateway{
         isbnList = new ArrayList<String>();
 
         try{
-            configParam(param);
-            if(this.statusCode!=200)
-                throw new Exception();
-
-            isbnList.add(this.param);
-            
-		    }catch(Exception e){
-                if(this.statusCode!=401)
-                    this.statusCode = 503; 
-            }
-    }
-
-    private void configParam(Object param){
-        try{
             this.param = new ObjectMapper()
                             .readTree(String.valueOf(param))
                             .get("param").textValue();
-
-        }catch(Exception e){  this.statusCode = 401; }
+            if(this.param.matches("[0-9]+") && this.param.length()==13)
+                isbnList.add(this.param);
+            
+		    }catch(Exception e){
+                this.statusCode = 401; 
+            }
     }
 
     private void configUrl(String isbn){
         try{
             if(!isbn.matches("[0-9]+") || isbn.length()!=13)
-                throw new Exception();
+                throw new Exception("401");
 
             this.isbn = isbn;
             this.isbnKey = "ISBN:"+isbn;
             this.url = new URL(prefix + this.isbnKey + suffix);
             this.detailUrl = new URL(prefix + this.isbnKey + detailSuffix);
 
-        }catch(Exception e){  this.statusCode = 400; }
+        }catch(Exception e){
+            this.statusCode = 400; 
+        }
     }
 
 	public List<Stock> getStocks(){
@@ -75,8 +67,7 @@ public class OpenlibraryApiGateway{
         for(String isbn : isbnList){
             configUrl(isbn);
             stocks.add(getStock());
-        }
- 
+        } 
         return stocks;
     }
 

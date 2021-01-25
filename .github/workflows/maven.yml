@@ -5,7 +5,7 @@ name: Test getStock
 
 on:
   push:
-    branches: [ test-junit ]
+    branches: [ test-junit,search-book ]
 
 jobs:
   test:
@@ -22,3 +22,5 @@ jobs:
       run: mvn test -Dtest=TestApi#checkStocksByIsbn
     - name: searchBookByIsbn
       run: mvn test -Dtest=TestApi#searchBookByIsbn
+    - name: searchBook
+      run: mvn test -Dtest=TestApi#checkSerach

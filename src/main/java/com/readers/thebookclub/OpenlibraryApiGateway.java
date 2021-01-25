@@ -7,6 +7,11 @@ import java.io.BufferedReader;
 import java.net.URL;
 import java.net.URI;
 
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.ArrayList;
@@ -34,28 +39,27 @@ public class OpenlibraryApiGateway{
         isbnList = new ArrayList<String>();
 
         try{
-            configParam(param);
-            if(this.statusCode!=200)
-                throw new Exception();
-
-            isbnList.add(this.param);
-            
-		    }catch(Exception e){
-                if(this.statusCode!=401)
-                    this.statusCode = 503; 
-            }
-    }
-
-    private void configParam(Object param){
-        try{
             this.param = new ObjectMapper()
                             .readTree(String.valueOf(param))
                             .get("param").textValue();
             if(this.param.matches("[0-9]+") && this.param.length()==13)
                 isbnList.add(this.param);
+            else{
+    			URI uri = new URI(searchPrefix);
+	    	    HttpClient client = HttpClient.newHttpClient();
+		        HttpRequest request = HttpRequest.newBuilder(
+			    	new URI(uri.getScheme(),uri.getAuthority(),uri.getPath(),
+					"{\"query\":\"" + this.param + "\"}",uri.getFragment()))
+          			.build();											   
+		        HttpResponse<InputStream> response = client.send(request,BodyHandlers.ofInputStream());
+    		    BufferedReader br = new BufferedReader(new InputStreamReader(response.body()));
+	    		while(br.readLine()!=null)
+    	    		isbnList.add(br.readLine());                
+            }
             
 		    }catch(Exception e){
-                this.statusCode = 401; 
+                if(this.statusCode!=401)
+                    this.statusCode = 503; 
             }
     }
 

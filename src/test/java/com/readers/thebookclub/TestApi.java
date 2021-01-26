@@ -58,10 +58,18 @@ public class TestApi {
     }
 
 	@Test
+<<<<<<< HEAD
     public void checkSearch() {
 		List<Object> list = new ArrayList<Object>();
 		list.add("{\"param\":\"Harry Potter\"}");
 
+=======
+    public void searchBook() {
+		List<Object> list = new ArrayList<Object>();
+		list.add("{\"param\":\"Harry Potter\"}");
+		list.add("{\"param\":\"Charlie and the chocolate factory\"}");
+		list.add("{\"param\":\"Alice's Adventures in Wonderland\"}");
+>>>>>>> main
 		printStocks(list);
 	}
 }

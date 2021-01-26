@@ -16,7 +16,7 @@ package:
 functions:
   getStocks:
     handler: com.readers.thebookclub.Handler
-    description: pass param as json to return a list of stocks
+    description: pass param as json to get stock from database
     events:
       - httpApi:
           path: /get/stocks/{param}
@@ -30,7 +30,7 @@ functions:
           method: POST
   searchBooks:
     handler: com.readers.thebookclub.Handler
-    description: pass param as json to return a list of books (not in stock)
+    description: pass param to search books (not in stock)
     events:
       - httpApi:
           path: /search/books/{param}

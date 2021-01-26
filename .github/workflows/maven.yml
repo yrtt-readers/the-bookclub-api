@@ -23,4 +23,4 @@ jobs:
     - name: searchBookByIsbn
       run: mvn test -Dtest=TestApi#searchBookByIsbn
     - name: checkSearch
-      run: mvn test -Dtest=TestApi#checkSearch
+      run: mvn test -Dtest=TestApi#searchBook

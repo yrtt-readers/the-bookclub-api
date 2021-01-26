@@ -58,7 +58,7 @@ public class TestApi {
     }
 
 	@Test
-    public void checkSearch() {
+    public void searchBook() {
 		List<Object> list = new ArrayList<Object>();
 		list.add("{\"param\":\"Harry Potter\"}");
 

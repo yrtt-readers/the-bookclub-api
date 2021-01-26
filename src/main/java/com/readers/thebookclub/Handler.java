@@ -22,11 +22,11 @@ public class Handler implements RequestHandler<Map<String, Object>, ApiGatewayRe
 
 		if(context.getFunctionName().equals("the-bookclub-api-dev-getStocks")){
 
-			og = new OpenlibraryApiGateway(input.get("pathParameters"));
+			dg = new DatabaseApiGateway(input.get("pathParameters"));
 
 			return ApiGatewayResponse.builder()
-				.setObjectBody(og.getStocks())
-				.setStatusCode(og.getStatusCode())
+				.setObjectBody(dg)
+				.setStatusCode(dg.getStatusCode())
 				.build();
 		}
 		else if(context.getFunctionName().equals("the-bookclub-api-dev-setStocks")){

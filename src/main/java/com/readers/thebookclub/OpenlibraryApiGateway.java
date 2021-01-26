@@ -7,10 +7,10 @@ import java.io.BufferedReader;
 import java.net.URL;
 import java.net.URI;
 
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.BodyHandlers;
+import org.apache.hc.client5.http.*;
+// import org.apache.hc.client5.http.HttpRequest;
+// import org.apache.hc.client5.http.HttpResponse;
+// import org.apache.hc.client5.http.HttpResponse.BodyHandlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,7 +28,7 @@ public class OpenlibraryApiGateway{
     private OpenlibraryApiGateway (){
 
         this.prefix = "https://openlibrary.org/api/books?bibkeys=";
-        this.searchPrefix = "http://openlibrary.org/search?q=";
+        this.searchPrefix = "http://openlibrary.org/search.json?q=";
         this.suffix = "&jscmd=data&format=json";
         this.detailSuffix = "&jscmd=details&format=json";
         this.statusCode = 200;
@@ -44,21 +44,23 @@ public class OpenlibraryApiGateway{
                             .get("param").textValue();
             if(this.param.matches("[0-9]+") && this.param.length()==13)
                 isbnList.add(this.param);
-            else{
-    			URI uri = new URI(searchPrefix);
-	    	    HttpClient client = HttpClient.newHttpClient();
-		        HttpRequest request = HttpRequest.newBuilder(
-			    	new URI(uri.getScheme(),uri.getAuthority(),uri.getPath(),
-					"{\"query\":\"" + this.param + "\"}",uri.getFragment()))
-          			.build();											   
-		        HttpResponse<InputStream> response = client.send(request,BodyHandlers.ofInputStream());
-    		    BufferedReader br = new BufferedReader(new InputStreamReader(response.body()));
-                if(response.statusCode()==200)
-    	    		while(br.readLine()!=null)
-        	    		isbnList.add(br.readLine());
-                else
-                    this.statusCode = 503;
-            }
+            // else{
+    		// 	URI uri = new URI(searchPrefix);
+	    	//     HttpClient client = HttpClient.newHttpClient();
+		    //     HttpRequest request = HttpRequest.newBuilder(
+			//     	new URI(uri.getScheme(),uri.getAuthority(),uri.getPath(),
+			// 		"{\"query\":\"" + this.param + "\"}",uri.getFragment()))
+          	// 		.build();											   
+		    //     HttpResponse<InputStream> response = client.send(request,BodyHandlers.ofInputStream());
+    		//     BufferedReader br = new BufferedReader(new InputStreamReader(response.body()));
+            //     if(response.statusCode()==200){
+			// 	System.out.println(String.valueOf(response.body()));
+    	    // 		while(br.readLine()!=null)
+        	//     		isbnList.add(br.readLine());
+            //     }
+            //     else
+            //         this.statusCode = 503;
+            // }
             
 		    }catch(Exception e){
                 if(this.statusCode!=401)
@@ -66,39 +68,32 @@ public class OpenlibraryApiGateway{
             }
     }
 
-    private void configUrl(String isbn){
-        try{
-            if(!isbn.matches("[0-9]+") || isbn.length()!=13)
-                throw new Exception("401");
-
-            this.isbn = isbn;
-            this.isbnKey = "ISBN:"+isbn;
-            this.url = new URL(prefix + this.isbnKey + suffix);
-            this.detailUrl = new URL(prefix + this.isbnKey + detailSuffix);
-
-        }catch(Exception e){
-            this.statusCode = 400; 
-        }
-    }
-
 	public List<Stock> getStocks(){
 
         List<Stock> stocks = new ArrayList<Stock>();
 
         for(String isbn : isbnList){
-            configUrl(isbn);
-            stocks.add(getStock());
+            stocks.add(getStock(isbn));
         } 
         return stocks;
     }
 
-	private Stock getStock(){
+	private Stock getStock(String isbn){
 
 		Stock stock = null;
 
         try{
             if(this.statusCode!=200)
                 throw new Exception();
+            if(!isbn.matches("[0-9]+") || isbn.length()!=13){
+                this.statusCode=400;
+                throw new Exception();
+            }
+
+            this.isbn = isbn;
+            this.isbnKey = "ISBN:"+isbn;
+            this.url = new URL(prefix + this.isbnKey + suffix);
+            this.detailUrl = new URL(prefix + this.isbnKey + detailSuffix);
 
             JsonNode book, bookDetail;
             String bookName="", bookAuthors="", thumbnail="", bookDescription="";
@@ -126,7 +121,10 @@ public class OpenlibraryApiGateway{
             }	
                 stock = new Stock(isbn,bookName,bookAuthors,thumbnail,bookDescription);
             }
-            }catch(Exception e){}finally{return stock;}
+            }catch(Exception e){
+                if(this.statusCode!=400)
+                    this.statusCode=400;
+            }finally{return stock;}
 	}
 
     public int getStatusCode(){

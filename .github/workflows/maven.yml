@@ -5,7 +5,7 @@ name: Test getStock
 
 on:
   push:
-    branches: [ test-junit,search-book ]
+    branches: [ test-junit ]
 
 jobs:
   test:

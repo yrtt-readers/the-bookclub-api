@@ -15,3 +15,8 @@ target
 
 # aws credentials directories
 .aws
+
+config.dev.json
+
+.vscode
+.factorypath

@@ -4,11 +4,16 @@ frameworkVersion: '2'
 
 provider:
   name: aws
-  profile: serverless
+  profile: serverless-profile
   runtime: java8
   region: eu-west-2
   lambdaHashingVersion: 20201221
   stage: dev
+  environment:
+    DB_HOST: ${file(./config.dev.json):DB_HOST}
+    DB_NAME: ${file(./config.dev.json):DB_NAME}
+    DB_USER: ${file(./config.dev.json):DB_USER}
+    DB_PASSWORD: ${file(./config.dev.json):DB_PASSWORD}
  
 package:
   artifact: target/the-bookclub-api-v0.1.jar
@@ -49,3 +54,12 @@ functions:
       - httpApi:
           path: /test/input/{param}
           method: GET
+  getInitialStock:
+    handler: com.readers.thebookclub.dbconnection.GetInitialStockHandler
+    description: get initial book list available
+    events:
+      - http:
+          path: /stocks/
+          method: GET
+  
+    

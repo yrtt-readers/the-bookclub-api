@@ -35,14 +35,14 @@ public class TestApi {
 
 		List<Object> list = new ArrayList<Object>();
 		list.add("{\"param\":\"9780060217860\"}");
-		list.add("{\"param\":\"9780789411464\"}");
-		list.add("{\"param\":\"9780806919317\"}");
-		list.add("{\"param\":\"9780875349343\"}");
-		list.add("{\"param\":\"9780893751159\"}");
-		list.add("{\"param\":\"9780689853944\"}");
-		list.add("{\"param\":\"9780866228312\"}");
-		list.add("{\"param\":\"9780911981568\"}");
-		list.add("{\"param\":\"9780816741342\"}");
+		// list.add("{\"param\":\"9780789411464\"}");
+		// list.add("{\"param\":\"9780806919317\"}");
+		// list.add("{\"param\":\"9780875349343\"}");
+		// list.add("{\"param\":\"9780893751159\"}");
+		// list.add("{\"param\":\"9780689853944\"}");
+		// list.add("{\"param\":\"9780866228312\"}");
+		// list.add("{\"param\":\"9780911981568\"}");
+		// list.add("{\"param\":\"9780816741342\"}");
 		printStocks(list);
     }
 

@@ -72,13 +72,17 @@ public class OpenlibraryApiGateway{
             }
     }
 
+
+
 	public List<Stock> getStocks(){
 
         List<Stock> stocks = new ArrayList<Stock>();
 
-        for(String isbn : isbnList){
+        for(String isbn : isbnList)
             stocks.add(getStock(isbn));
-        } 
+
+        if (stocks.size()==0)
+            this.statusCode = 500;
         return stocks;
     }
 

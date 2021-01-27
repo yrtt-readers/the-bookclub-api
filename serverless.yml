@@ -14,6 +14,13 @@ package:
   artifact: target/the-bookclub-api-v0.1.jar
 
 functions:
+  searchBooks:
+    handler: com.readers.thebookclub.Handler
+    description: pass param to search books (not in stock)
+    events:
+      - httpApi:
+          path: /search/books/{param}
+          method: GET
   getStocks:
     handler: com.readers.thebookclub.Handler
     description: pass param as json to get stock from database
@@ -28,13 +35,6 @@ functions:
       - httpApi:
           path: /set/stocks/{param}
           method: POST
-  searchBooks:
-    handler: com.readers.thebookclub.Handler
-    description: pass param to search books (not in stock)
-    events:
-      - httpApi:
-          path: /search/books/{param}
-          method: GET
   testStock:
     handler: com.readers.thebookclub.Handler
     description: test function to return a single stock

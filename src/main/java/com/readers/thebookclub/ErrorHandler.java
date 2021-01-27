@@ -9,6 +9,7 @@ public final class ErrorHandler{
     static{
         message.put(400,"Invalid Input - isbn");
         message.put(401,"Invalid Input - json");
+        message.put(500,"Book not found");
         message.put(503,"Service Unavailable");
     }
 }

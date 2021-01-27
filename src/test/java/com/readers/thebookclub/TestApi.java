@@ -12,10 +12,10 @@ public class TestApi {
 		for(Object param : list){
 		OpenlibraryApiGateway og =
 			new OpenlibraryApiGateway(param);
-			if(og.getStatusCode()!=200)
-				System.out.println(ErrorHandler.message.get(og.getStatusCode()));
-
-		for (Stock stock : og.getStocks()){
+		if(og.getStatusCode()!=200)
+			System.out.println(ErrorHandler.message.get(og.getStatusCode()));
+		else{
+			for (Stock stock : og.getStocks()){
 			if(og.getStatusCode()==200 && stock!=null){
 				System.out.println(stock.getIsbn());
 				System.out.println(stock.getBookName());
@@ -23,10 +23,7 @@ public class TestApi {
 				System.out.println(stock.getThumbnail());
 				System.out.println(stock.getBookDescription());
 			}
-			else{
-				System.out.println("Err: " + String.valueOf(param));
-				System.out.println(ErrorHandler.message.get(og.getStatusCode()));
-			}
+		}
 		}
 		}
 	}
@@ -60,9 +57,9 @@ public class TestApi {
 	@Test
     public void searchBook() {
 		List<Object> list = new ArrayList<Object>();
-		list.add("{\"param\":\"Harry Potter\"}");
-		list.add("{\"param\":\"Charlie and the chocolate factory\"}");
-		list.add("{\"param\":\"Alice's Adventures in Wonderland\"}");
+		// list.add("{\"param\":\"Charlie and the chocolate factory\"}");
+		// list.add("{\"param\":\"Alice's Adventures in Wonderland\"}");
+		list.add("{\"param\":\"9780001006874\"}");
 		printStocks(list);
 	}
 }

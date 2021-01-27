@@ -57,9 +57,9 @@ public class TestApi {
 	@Test
     public void searchBook() {
 		List<Object> list = new ArrayList<Object>();
-		// list.add("{\"param\":\"Charlie and the chocolate factory\"}");
-		// list.add("{\"param\":\"Alice's Adventures in Wonderland\"}");
-		list.add("{\"param\":\"9780001006874\"}");
+		list.add("{\"param\":\"Charlie and the chocolate factory\"}");
+		list.add("{\"param\":\"Alice's Adventures in Wonderland\"}");
+		list.add("{\"param\":\"Harry Potter\"}");
 		printStocks(list);
 	}
 }

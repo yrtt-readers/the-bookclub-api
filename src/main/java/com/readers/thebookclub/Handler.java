@@ -20,7 +20,16 @@ public class Handler implements RequestHandler<Map<String, Object>, ApiGatewayRe
 		OpenlibraryApiGateway og;
 		DatabaseApiGateway dg;
 
-		if(context.getFunctionName().equals("the-bookclub-api-dev-getStocks")){
+		if(context.getFunctionName().equals("the-bookclub-api-dev-searchBooks")){
+
+			og = new OpenlibraryApiGateway(input.get("pathParameters"));
+
+			return ApiGatewayResponse.builder()
+				.setObjectBody(og.getStocks())
+				.setStatusCode(og.getStatusCode())
+				.build();
+		}
+		else if(context.getFunctionName().equals("the-bookclub-api-dev-getStocks")){
 
 			dg = new DatabaseApiGateway(input.get("pathParameters"));
 
@@ -36,15 +45,6 @@ public class Handler implements RequestHandler<Map<String, Object>, ApiGatewayRe
 			return ApiGatewayResponse.builder()
 				.setObjectBody(dg)
 				.setStatusCode(dg.getStatusCode())
-				.build();
-		}
-		else if(context.getFunctionName().equals("the-bookclub-api-dev-searchBooks")){
-
-			og = new OpenlibraryApiGateway(input.get("pathParameters"));
-
-			return ApiGatewayResponse.builder()
-				.setObjectBody(og.getStocks())
-				.setStatusCode(og.getStatusCode())
 				.build();
 		}
 		else if(context.getFunctionName().equals("the-bookclub-api-dev-testStock")){

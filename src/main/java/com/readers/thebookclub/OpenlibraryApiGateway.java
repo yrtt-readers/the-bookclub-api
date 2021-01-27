@@ -34,9 +34,7 @@ public class OpenlibraryApiGateway{
         isbnList = new ArrayList<String>();
 
         try{
-            this.param = new ObjectMapper()
-                            .readTree(String.valueOf(param))
-                            .get("param").textValue();
+            this.param = String.valueOf(param).substring(7,String.valueOf(param).length()-1);
             if(this.param.matches("[0-9]+") && this.param.length()==13)
                 isbnList.add(this.param);
             else{
@@ -68,7 +66,7 @@ public class OpenlibraryApiGateway{
 		    }catch(Exception e){
                 if(this.statusCode!=401)
                     this.statusCode = 503; 
-				System.out.println("OP Lib " + this.statusCode);
+				e.printStackTrace();
             }
     }
 
@@ -132,6 +130,7 @@ public class OpenlibraryApiGateway{
             }catch(Exception e){
                 if(this.statusCode!=400)
                     this.statusCode=400;
+				e.printStackTrace();
             }finally{return stock;}
 	}
 

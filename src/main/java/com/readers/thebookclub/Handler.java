@@ -18,27 +18,8 @@ public class Handler implements RequestHandler<Map<String, Object>, ApiGatewayRe
 
 		LOG.info("received: {}", input);
 		OpenlibraryApiGateway og;
-		DatabaseApiGateway dg;
 
-		if(context.getFunctionName().equals("the-bookclub-api-dev-getStocks")){
-
-			dg = new DatabaseApiGateway(input.get("pathParameters"));
-
-			return ApiGatewayResponse.builder()
-				.setObjectBody(dg)
-				.setStatusCode(dg.getStatusCode())
-				.build();
-		}
-		else if(context.getFunctionName().equals("the-bookclub-api-dev-setStocks")){
-
-			dg = new DatabaseApiGateway(input.get("pathParameters"));
-
-			return ApiGatewayResponse.builder()
-				.setObjectBody(dg)
-				.setStatusCode(dg.getStatusCode())
-				.build();
-		}
-		else if(context.getFunctionName().equals("the-bookclub-api-dev-searchBooks")){
+		if(context.getFunctionName().equals("the-bookclub-op-api-dev-searchBooks")){
 
 			og = new OpenlibraryApiGateway(input.get("pathParameters"));
 
@@ -47,16 +28,16 @@ public class Handler implements RequestHandler<Map<String, Object>, ApiGatewayRe
 				.setStatusCode(og.getStatusCode())
 				.build();
 		}
-		else if(context.getFunctionName().equals("the-bookclub-api-dev-testStock")){
+		else if(context.getFunctionName().equals("the-bookclub-op-api-dev-testStock")){
 
-			og = new OpenlibraryApiGateway(("{\"param\":\"9780689853944\"}"));
+			og = new OpenlibraryApiGateway(("{\"param\":\"9780001006874\"}"));
 			
 			return ApiGatewayResponse.builder()
 				.setObjectBody(og.getStocks())
 				.setStatusCode(og.getStatusCode())
 				.build();
 		}
-		else if(context.getFunctionName().equals("the-bookclub-api-dev-testInput")){
+		else if(context.getFunctionName().equals("the-bookclub-op-api-dev-testInput")){
 			return ApiGatewayResponse.builder()
 				.setObjectBody(String.valueOf(input.get("pathParameters")))
 				.setStatusCode(200)

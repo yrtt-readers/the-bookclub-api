@@ -5,34 +5,21 @@
 # the-bookclub-api
 - This API has the following AWS lambda functions:
 
-### getStocks:
-###### https://uu7wl2im1i.execute-api.eu-west-2.amazonaws.com/get/stocks/{param}
-- pass isbn as string, return stock list in database.
-- input: 9780689853944
-- output:
-```
-[{"isbn":"9780689853944","qty":0,"bookName":"\"Red Dog\"","bookAuthors":"\"Bill Wallace\"","postCode":null,"thumbnail":"\"https://covers.openlibrary.org/b/id/437328-M.jpg\"","bookDescription":""}]
-```
-
-### setStocks:
-###### https://uu7wl2im1i.execute-api.eu-west-2.amazonaws.com/set/stocks/{param}
-- pass stocks json, update to database.
-
 ### searchBooks:
-###### https://uu7wl2im1i.execute-api.eu-west-2.amazonaws.com/search/books/{param}
+###### https://croxqcg4a2.execute-api.eu-west-2.amazonaws.com/search/books/{param}
 - pass search parameter (isbn, book name, authors) as string, return book list.
 - output:
 ```
-[{"isbn":"9780689853944","qty":0,"bookName":"\"Red Dog\"","bookAuthors":"\"Bill Wallace\"","postCode":null,"thumbnail":"\"https://covers.openlibrary.org/b/id/437328-M.jpg\"","bookDescription":""}]
+[{"isbn":"9798642851920","qty":0,"bookName":"\"Alice's Adventures in Wonderland Annotated and Illustrated Book for Children\"","bookAuthors":"\"Lewis Carroll\"","postCode":null,"thumbnail":"","bookDescription":""},{"isbn":"9781782011057","qty":0,"bookName":"\"Elucidating Alice: A Textual Commentary on Alice's Adventures in Wonderland\"","bookAuthors":"\"Lewis Carroll\"","postCode":null,"thumbnail":"\"https://covers.openlibrary.org/b/id/8788680-M.jpg\"","bookDescription":""}]
 ```
 
-<!-- ### testStock:
-###### https://uu7wl2im1i.execute-api.eu-west-2.amazonaws.com/test/stock/{param}
+### testStock:
+###### https://croxqcg4a2.execute-api.eu-west-2.amazonaws.com/test/stock/
 - default output of a single stock
 ```
-[{"isbn":"9780689853944","qty":0,"bookName":"\"Red Dog\"","bookAuthors":"\"Bill Wallace\"","postCode":null,"thumbnail":"\"https://covers.openlibrary.org/b/id/437328-M.jpg\"","bookDescription":""}]
+[{"isbn":"9780001006874","qty":0,"bookName":"\"Charlie and the chocolatefactory\"","bookAuthors":"\"Roald Dahl\"","postCode":null,"thumbnail":"\"https://covers.openlibrary.org/b/id/9382835-M.jpg\"","bookDescription":""},{"isbn":"9781417786091","qty":0,"bookName":"\"Charlie and the Chocolate Factory                            Puffin Modern Classics Prebound\"","bookAuthors":"\"Roald Dahl\"","postCode":null,"thumbnail":"\"https://covers.openlibrary.org/b/id/7615488-M.jpg\"","bookDescription":""}]
 ```
 
 ### testInput:
-###### https://uu7wl2im1i.execute-api.eu-west-2.amazonaws.com/test/input/{param}
-- output: value in {param} -->
+###### https://croxqcg4a2.execute-api.eu-west-2.amazonaws.com/test/input/Hello World
+- output: Hello World

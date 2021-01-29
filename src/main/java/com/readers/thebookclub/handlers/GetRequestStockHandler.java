@@ -60,7 +60,7 @@ public class GetRequestStockHandler implements RequestHandler<APIGatewayProxyReq
             }
         }
         catch (Exception e) {
-            LOG.error("Unable to query db for stocks");
+            LOG.error("Unable to query db for request stocks");
         }            
         finally {
             closeConnection();
@@ -73,7 +73,7 @@ public class GetRequestStockHandler implements RequestHandler<APIGatewayProxyReq
             String responseBody = objectMapper.writeValueAsString(requestStocks);
             response.setBody(responseBody);
         } catch (JsonProcessingException e) {
-            LOG.error("Unable to marshall donateStock array", e);
+            LOG.error("Unable to marshall requestStocks array", e);
         }
         return response;
     }

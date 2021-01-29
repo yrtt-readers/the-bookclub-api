@@ -29,10 +29,24 @@ functions:
 
   getRequestStock:
     handler: com.readers.thebookclub.handlers.GetRequestStockHandler
-    description: get initial book list available to reques
+    description: get initial book list available to request
     events:
       - http:
           path: /request/stocks/
+          method: GET
+  getActiveRegions:
+    handler: com.readers.thebookclub.handlers.GetActiveRegionsHandler
+    description: get activate regions
+    events:
+      - http:
+          path: /regions/activate/
+          method: GET
+  getRegionDetail:
+    handler: com.readers.thebookclub.handlers.GetRegionDetailHandler
+    description: get region details
+    events:
+      - http:
+          path: /regions/{regionId}/details/
           method: GET
   
     

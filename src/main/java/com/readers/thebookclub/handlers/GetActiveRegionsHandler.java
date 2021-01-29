@@ -16,10 +16,10 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.readers.thebookclub.model.DonateStock;
+import com.readers.thebookclub.model.ActiveRegion;
 
-public class GetDonateStockHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
-    private static final Logger LOG = LogManager.getLogger(GetDonateStockHandler.class);
+public class GetActiveRegionsHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+    private static final Logger LOG = LogManager.getLogger(GetActiveRegionsHandler.class);
 
 	private Connection connection = null;
 	private PreparedStatement preparedStatement = null;
@@ -30,7 +30,7 @@ public class GetDonateStockHandler implements RequestHandler<APIGatewayProxyRequ
         LOG.info("received the request");
         // String userId = request.getPathParameters().get("userId");
         //System.out.println(userId);
-        List<DonateStock> donateStocks = new ArrayList<>();
+        List<ActiveRegion> activeRegions = new ArrayList<>();
         try {
            
             LOG.debug("Connecting to database");
@@ -40,20 +40,22 @@ public class GetDonateStockHandler implements RequestHandler<APIGatewayProxyRequ
                     System.getenv("DB_USER"),
                     System.getenv("DB_PASSWORD")));
             LOG.debug("CONNECTION SUCESSFUL");
-            preparedStatement = connection.prepareStatement("SELECT DISTINCT Stock.isbn,Book.title, Book.author, Book.summary, Book.thumbnail FROM Book INNER JOIN Stock ON Book.isbn=Stock.isbn");
+            preparedStatement = connection.prepareStatement("SELECT Region.region_id, Address.address_id, Address.post_code, Region.region_name" +
+                                                            " FROM Address INNER JOIN Region ON Region.address_id2=Address.address_id" +
+                                                            " WHERE Region.status_id2= 1");
             resultSet = preparedStatement.executeQuery();
             LOG.debug("Prepared statements OK");
             while (resultSet.next()) {
-                DonateStock donateStock = new DonateStock(resultSet.getString("isbn"),
-                                                    resultSet.getString("title"),
-                                                    resultSet.getString("author"),
-                                                    resultSet.getString("summary"),
-                                                    resultSet.getString("thumbnail"));
-                donateStocks.add(donateStock);
+                ActiveRegion activeRegion = new ActiveRegion(resultSet.getString("region_id"),
+                                                             resultSet.getString("address_id"),
+                                                             resultSet.getString("post_code"),
+                                                             resultSet.getString("region_name"));
+
+                activeRegions.add(activeRegion);
             }
         }
         catch (Exception e) {
-            LOG.error("Unable to query db for donate stock");
+            LOG.error("Unable to query db for active regions");
         }            
         finally {
             closeConnection();
@@ -63,10 +65,10 @@ public class GetDonateStockHandler implements RequestHandler<APIGatewayProxyRequ
         response.setStatusCode(200);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            String responseBody = objectMapper.writeValueAsString(donateStocks);
+            String responseBody = objectMapper.writeValueAsString(activeRegions);
             response.setBody(responseBody);
         } catch (JsonProcessingException e) {
-            LOG.error("Unable to marshall donateStock array", e);
+            LOG.error("Unable to marshall activeRegions array", e);
         }
         return response;
     }

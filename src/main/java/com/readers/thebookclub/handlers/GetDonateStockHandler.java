@@ -1,4 +1,4 @@
-package com.readers.thebookclub.dbconnection;
+package com.readers.thebookclub.handlers;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,9 +16,10 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.readers.thebookclub.model.DonateStock;
 
-public class GetInitialStockHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
-    private static final Logger LOG = LogManager.getLogger(GetInitialStockHandler.class);
+public class GetDonateStockHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+    private static final Logger LOG = LogManager.getLogger(GetDonateStockHandler.class);
 
 	private Connection connection = null;
 	private PreparedStatement preparedStatement = null;
@@ -29,29 +30,26 @@ public class GetInitialStockHandler implements RequestHandler<APIGatewayProxyReq
         LOG.info("received the request");
         // String userId = request.getPathParameters().get("userId");
         //System.out.println(userId);
-        List<BookStock> bookStocks = new ArrayList<>();
+        List<DonateStock> donateStocks = new ArrayList<>();
         try {
-            //Class.forName("com.mysql.jdbc.Driver");
+           
             LOG.debug("Connecting to database");
-            // LOG.debug(String.format("Connecting to database on %s", System.getenv("DB_HOST")));
-            // LOG.debug(String.format("DATABASE %s", System.getenv("DB_NAME")));
-            // LOG.debug(String.format("User %s", System.getenv("DB_USER")));
-            // LOG.debug(String.format("PASSWORD %s", System.getenv("DB_PASSWORD")));
             connection = DriverManager.getConnection(String.format("jdbc:mysql://%s/%s?user=%s&password=%s",
                     System.getenv("DB_HOST"),
                     System.getenv("DB_NAME"),
                     System.getenv("DB_USER"),
                     System.getenv("DB_PASSWORD")));
             LOG.debug("CONNECTION SUCESSFUL");
-            preparedStatement = connection.prepareStatement("SELECT * FROM Stock");
+            preparedStatement = connection.prepareStatement("SELECT DISTINCT Stock.isbn,Book.title, Book.author, Book.summary, Book.thumbnail FROM Book INNER JOIN Stock ON Book.isbn=Stock.isbn");
             resultSet = preparedStatement.executeQuery();
             LOG.debug("Prepared statements OK");
             while (resultSet.next()) {
-                BookStock bookStock = new BookStock(resultSet.getInt("region_id2"),
-                                                    resultSet.getString("isbn"),
-                                                    resultSet.getInt("stock _qty"),
-                                                    resultSet.getInt("max_count"));
-                bookStocks.add(bookStock);
+                DonateStock donateStock = new DonateStock(resultSet.getString("isbn"),
+                                                    resultSet.getString("title"),
+                                                    resultSet.getString("author"),
+                                                    resultSet.getString("summary"),
+                                                    resultSet.getString("thumbnail"));
+                donateStocks.add(donateStock);
             }
         }
         catch (Exception e) {
@@ -65,10 +63,10 @@ public class GetInitialStockHandler implements RequestHandler<APIGatewayProxyReq
         response.setStatusCode(200);
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            String responseBody = objectMapper.writeValueAsString(bookStocks);
+            String responseBody = objectMapper.writeValueAsString(donateStocks);
             response.setBody(responseBody);
         } catch (JsonProcessingException e) {
-            LOG.error("Unable to marshall tasks array", e);
+            LOG.error("Unable to marshall donateStock array", e);
         }
         return response;
     }

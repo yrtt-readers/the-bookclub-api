@@ -1,6 +1,3 @@
-**IMPORTANT**
-- Gateway is disabled by default for security reason
-- Contact Readers team for gateway test
 
 # the-bookclub-api
 - This API has the following AWS lambda functions:

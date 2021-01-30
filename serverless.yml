@@ -25,8 +25,16 @@ functions:
     events:
       - http:
           path: /donate/stocks/
-          method: GET
-          cors: true
+          method: get
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
 
   getRequestStock:
     handler: com.readers.thebookclub.handlers.GetRequestStockHandler
@@ -34,8 +42,16 @@ functions:
     events:
       - http:
           path: /request/stocks/
-          method: GET
-          cors: true
+          method: get
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
 
   getActiveRegions:
     handler: com.readers.thebookclub.handlers.GetActiveRegionsHandler
@@ -43,8 +59,16 @@ functions:
     events:
       - http:
           path: /regions/activate/
-          method: GET
-          cors: true
+          method: get
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
 
   getRegionDetail:
     handler: com.readers.thebookclub.handlers.GetRegionDetailHandler
@@ -52,8 +76,16 @@ functions:
     events:
       - http:
           path: /regions/{regionId}/details/
-          method: GET
-          cors: true
+          method: get
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
 
   
     

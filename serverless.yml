@@ -26,6 +26,7 @@ functions:
       - http:
           path: /donate/stocks/
           method: GET
+          cors: true
 
   getRequestStock:
     handler: com.readers.thebookclub.handlers.GetRequestStockHandler
@@ -34,6 +35,8 @@ functions:
       - http:
           path: /request/stocks/
           method: GET
+          cors: true
+
   getActiveRegions:
     handler: com.readers.thebookclub.handlers.GetActiveRegionsHandler
     description: get activate regions
@@ -41,6 +44,8 @@ functions:
       - http:
           path: /regions/activate/
           method: GET
+          cors: true
+
   getRegionDetail:
     handler: com.readers.thebookclub.handlers.GetRegionDetailHandler
     description: get region details
@@ -48,5 +53,7 @@ functions:
       - http:
           path: /regions/{regionId}/details/
           method: GET
+          cors: true
+
   
     

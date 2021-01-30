@@ -1,4 +1,4 @@
-package com.readers.thebookclub;
+package com.readers.thebookclub.model;
 
 public class Stock {
 

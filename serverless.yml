@@ -58,7 +58,7 @@ functions:
     description: get activate regions
     events:
       - http:
-          path: /regions/activate/
+          path: /regions/active/
           method: get
           cors:
             origin: '*' # <-- Specify allowed origin

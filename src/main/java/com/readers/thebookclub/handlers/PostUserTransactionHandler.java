@@ -62,14 +62,14 @@ public class PostUserTransactionHandler implements RequestHandler<APIGatewayProx
             LOG.debug("Prepared statements OK");
             preparedStatement.setInt(5, 1);
             LOG.debug("Prepared statements OK");
-            resultSet = preparedStatement.executeQuery();
+            preparedStatement.execute();
             LOG.debug("Prepared statements OK");
             // while (resultSet.next()) {
             //     Transaction transaction = new Transation(resultSet.getString("region_id"));
             // }
         }
         catch (Exception e) {
-            LOG.error("Unable to query db for user transaction");
+            LOG.error("Unable to query db for user transaction", e);
         }            
         finally {
             closeConnection();

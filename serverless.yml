@@ -86,6 +86,22 @@ functions:
               - X-Api-Key
               - X-Amz-Security-Token
               - X-Amz-User-Agent
+  postUserRequest:
+    handler: com.readers.thebookclub.handlers.PostUserTransactionHandler
+    description: post user request
+    events:
+      - http:
+          path: /users/{userId}/transaction/
+          method: post
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
 
   
     

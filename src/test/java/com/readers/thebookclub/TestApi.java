@@ -11,9 +11,8 @@ public class TestApi {
 	private final String[] isbn = {"9780060217877","9780060217860"};
 	private final String[] bookName = {"Wider than the sky","Wider than the sky"};
 	private final String[] bookAuthors = {"Scott Elledge","Scott Elledge"};
-	private final String isbn2 = "9780060217860";
-	private final String bookName2 = "Wider than the sky";
-	private final String bookAuthors2 = "Scott Elledge";
+	private final String[] thumbnail = {"",""};
+	private final String[] bookDescription = {"",""};
 
 	private void printStocks(List<Object> list){
 		for(Object param : list){
@@ -30,6 +29,8 @@ public class TestApi {
 		        assertEquals(isbn[count], stock.getIsbn());
         		assertEquals(bookName[count], stock.getBookName());
         		assertEquals(bookAuthors[count], stock.getBookAuthors());
+        		assertEquals(thumbnail[count], stock.getThumbnail());
+        		assertEquals(bookDescription[count], stock.getBookDescription());
 				count++;
 				}
 			}

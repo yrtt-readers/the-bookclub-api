@@ -10,13 +10,13 @@ public class Stock {
     private String thumbnail;
     private String bookDescription;
 
-    public Stock(String isbn, 
-                int qty, 
-                String bookName, 
-                String bookAuthors, 
-                String postCode, 
-                String thumbnail, 
-                String bookDescription){
+    public Stock(String isbn,
+                 int qty,
+                 String bookName,
+                 String bookAuthors,
+                 String postCode,
+                 String thumbnail,
+                 String bookDescription) {
         this.isbn = isbn;
         this.qty = qty;
         this.bookName = bookName;
@@ -25,58 +25,74 @@ public class Stock {
         this.thumbnail = thumbnail;
         this.bookDescription = bookDescription;
     }
-    public Stock(String isbn, 
-                String bookName, 
-                String bookAuthors, 
-                String thumbnail, 
-                String bookDescription){
-        this(isbn,0,bookName,bookAuthors,null,thumbnail,bookDescription);
+
+    public Stock(String isbn,
+                 String bookName,
+                 String bookAuthors,
+                 String thumbnail,
+                 String bookDescription) {
+        this(isbn, 0, bookName, bookAuthors, null, thumbnail, bookDescription);
     }
-    public Stock(String isbn, 
-                int qty, 
-                String postCode){
-        this(isbn,qty,null,null,postCode,null,null);
+
+    public Stock(String isbn,
+                 int qty,
+                 String postCode) {
+        this(isbn, qty, null, null, postCode, null, null);
     }
-    public String getIsbn(){
+
+    public String getIsbn() {
         return isbn;
     }
-    public void setIsbn(String isbn){
-        this.isbn=isbn;
+
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
-    public int getQty(){
+
+    public int getQty() {
         return qty;
     }
-    public void setQty(int qty){
-        this.qty=qty;
+
+    public void setQty(int qty) {
+        this.qty = qty;
     }
-    public String getBookName(){
+
+    public String getBookName() {
         return bookName;
     }
-    public void setBookName(String bookName){
-        this.bookName=bookName;
+
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
-    public String getBookAuthors(){
+
+    public String getBookAuthors() {
         return bookAuthors;
     }
-    public void setBookAuthors(String bookAuthors){
-        this.bookAuthors=bookAuthors;
+
+    public void setBookAuthors(String bookAuthors) {
+        this.bookAuthors = bookAuthors;
     }
-    public String getPostCode(){
+
+    public String getPostCode() {
         return postCode;
     }
-    public void setPostCode(String postCode){
-        this.postCode=postCode;
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
-    public String getThumbnail(){
+
+    public String getThumbnail() {
         return thumbnail;
     }
-    public void setThumbnail(String thumbnail){
-        this.thumbnail=thumbnail;
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
-    public String getBookDescription(){
+
+    public String getBookDescription() {
         return bookDescription;
     }
-    public void setBookDescription(String bookDescription){
-        this.bookDescription=bookDescription;
+
+    public void setBookDescription(String bookDescription) {
+        this.bookDescription = bookDescription;
     }
 }

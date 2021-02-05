@@ -8,13 +8,13 @@ import java.util.ArrayList;
 
 public class TestApi {
 
-	private final String[] isbn = {"9780060217877","9780060217860"};
-	private final String[] bookName = {"Wider than the sky","Wider than the sky"};
-	private final String[] bookAuthors = {"Scott Elledge","Scott Elledge"};
-	private final String[] thumbnail = {"",""};
-	private final String[] bookDescription = {"",""};
+	private ArrayList<String> isbn = new ArrayList<String>();
+	private ArrayList<String> bookName = new ArrayList<String>();
+	private ArrayList<String> bookAuthors = new ArrayList<String>();
+	private ArrayList<String> thumbnail = new ArrayList<String>();
+	private ArrayList<String> bookDescription = new ArrayList<String>();
 
-	private void printStocks(List<Object> list){
+	private void validateStocks(List<Object> list){
 		for(Object param : list){
 		OpenlibraryApiGateway og =
 			new OpenlibraryApiGateway(param);
@@ -24,32 +24,14 @@ public class TestApi {
 				int count = 0;
 			for (Stock stock : og.getStocks()){
 			if(og.getStatusCode()==200 && stock!=null){
-				// if(count>0)
-				// 	return;
-		        assertEquals(isbn[count], stock.getIsbn());
-        		assertEquals(bookName[count], stock.getBookName());
-        		assertEquals(bookAuthors[count], stock.getBookAuthors());
-        		assertEquals(thumbnail[count], stock.getThumbnail());
-        		assertEquals(bookDescription[count], stock.getBookDescription());
+		        assertEquals(isbn.get(count), stock.getIsbn());
+        		assertEquals(bookName.get(count), stock.getBookName());
+        		assertEquals(bookAuthors.get(count), stock.getBookAuthors());
+        		assertEquals(thumbnail.get(count), stock.getThumbnail());
+        		assertEquals(bookDescription.get(count), stock.getBookDescription());
 				count++;
 				}
 			}
-
-			// for (Stock stock : og.getStocks()){
-			// if(og.getStatusCode()==200 && stock!=null){
-				// System.out.println(stock.getIsbn());
-				// System.out.println(stock.getBookName());
-				// System.out.println(stock.getBookAuthors());
-				// System.out.println(stock.getThumbnail());
-				// System.out.println(stock.getBookDescription());
-        // assertEquals(isbn1, stock.getIsbn());
-        // assertEquals(bookName1, stock.getBookName());
-        // assertEquals(bookAuthors1, stock.getBookAuthors());
-        // assertEquals(, stock.get());
-        // assertEquals(, stock.get());
-        // assertEquals(, stock.get());
-			// 	}
-			// }
 		}
 		}
 	}
@@ -69,7 +51,26 @@ public class TestApi {
 		// list.add("{\"param\":\"9780866228312\"}");
 		// list.add("{\"param\":\"9780911981568\"}");
 		// list.add("{\"param\":\"9780816741342\"}");
-		printStocks(list);
+
+		isbn.clear();
+		bookName.clear();
+		bookAuthors.clear();
+		thumbnail.clear();
+		bookDescription.clear();
+
+		isbn.add("9780060217877");
+		bookName.add("Wider than the sky");
+		bookAuthors.add("Scott Elledge");
+		thumbnail.add("");
+		bookDescription.add("");
+
+		isbn.add("9780060217860");
+		bookName.add("Wider than the sky");
+		bookAuthors.add("Scott Elledge");
+		thumbnail.add("");
+		bookDescription.add("");
+
+		validateStocks(list);
     }
 
     @Test
@@ -77,7 +78,7 @@ public class TestApi {
 
 		List<Object> list = new ArrayList<Object>();
 		list.add("{\"param\":\"9780747575443\"}");
-		printStocks(list);
+		validateStocks(list);
     }
 
 	@Test
@@ -86,6 +87,6 @@ public class TestApi {
 		list.add("{\"param\":\"Charlie and the chocolate factory\"}");
 		list.add("{\"param\":\"Alice's Adventures in Wonderland\"}");
 		list.add("{\"param\":\"Harry Potter\"}");
-		printStocks(list);
+		validateStocks(list);
 	}
 }

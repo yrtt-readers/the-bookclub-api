@@ -38,21 +38,30 @@ public class OpenlibraryApiGateway{
             else{
                 this.param = this.param.replaceAll("[^A-Za-z0-9]", "+");
                 this.searchUrl = new URL(searchPrefix + this.param);                
-                Iterator<JsonNode> tree = new ObjectMapper()
-                                        .readTree(this.searchUrl)
-                                        .get("docs").elements();
+                Iterator<JsonNode> tree = 
+                    new ObjectMapper()
+                        .readTree(this.searchUrl)
+                        .get("docs").elements();
+
                 while(tree.hasNext()){
                     JsonNode node = tree.next();
                     Iterator<String> list = node.fieldNames();
+
                     while(list.hasNext()){
                         String isbnName = list.next();
+
                         if(isbnName.equals("isbn")){
-                            Iterator<JsonNode> isbnTree = node.get(isbnName).elements();
+                            Iterator<JsonNode> isbnTree = 
+                                node.get(isbnName).elements();
+
                                 while(isbnTree.hasNext()){
                                     JsonNode isbnNode = isbnTree.next();
                                     String isbn = isbnNode.textValue();
-                                    if(isbn.matches("[0-9]+") && isbn.length()==this.isbnLength && isbnList.size()<=this.maxIsbn){
+
+                                    if(isbn.matches("[0-9]+") && isbn.length()==
+                                        this.isbnLength && isbnList.size()<=this.maxIsbn){
                                         isbnList.add(isbn);
+                                        
                                         if(isbnList.size()==this.maxIsbn)
                                             return;                                        
                                     }

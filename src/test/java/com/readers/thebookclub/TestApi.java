@@ -29,7 +29,10 @@ public class TestApi {
                         assertEquals(bookName.get(count), stock.getBookName());
                         assertEquals(bookAuthors.get(count), stock.getBookAuthors());
                         assertEquals(thumbnail.get(count), stock.getThumbnail());
-                        assertEquals(bookDescription.get(count), stock.getBookDescription());
+                        System.out.println(stock.getIsbn());
+                        System.out.println(stock.getBookName());
+                        System.out.println(stock.getBookAuthors());
+                        System.out.println(stock.getThumbnail());
                         count++;
                     }
                 }
@@ -45,33 +48,22 @@ public class TestApi {
     public void checkStocksByIsbn() {
 
         List<Object> list = new ArrayList<Object>();
-        list.add("{\"param\":\"9780060217860\"}");
-        // list.add("{\"param\":\"9780789411464\"}");
-        // list.add("{\"param\":\"9780806919317\"}");
-        // list.add("{\"param\":\"9780875349343\"}");
-        // list.add("{\"param\":\"9780893751159\"}");
-        // list.add("{\"param\":\"9780689853944\"}");
-        // list.add("{\"param\":\"9780866228312\"}");
-        // list.add("{\"param\":\"9780911981568\"}");
-        // list.add("{\"param\":\"9780816741342\"}");
+        list.add("{\"param\":\"9782070513178\"}");
 
         isbn.clear();
         bookName.clear();
         bookAuthors.clear();
         thumbnail.clear();
-        bookDescription.clear();
 
-        isbn.add("9780060217877");
-        bookName.add("Wider than the sky");
-        bookAuthors.add("Scott Elledge");
-        thumbnail.add("");
-        bookDescription.add("");
+        isbn.add("9782070513178");
+        bookName.add("Charlie et la Chocolaterie");
+        bookAuthors.add("Roald Dahl");
+        thumbnail.add("https://covers.openlibrary.org/b/id/3076786-M.jpg");
 
-        isbn.add("9780060217860");
-        bookName.add("Wider than the sky");
-        bookAuthors.add("Scott Elledge");
-        thumbnail.add("");
-        bookDescription.add("");
+        isbn.add("9780756982133");
+        bookName.add("Charlie and the Chocolate Factory");
+        bookAuthors.add("Roald Dahl");
+        thumbnail.add("https://covers.openlibrary.org/b/id/8672180-M.jpg");
 
         validateStocks(list);
     }
@@ -80,16 +72,31 @@ public class TestApi {
     public void searchBookByIsbn() {
 
         List<Object> list = new ArrayList<Object>();
-        list.add("{\"param\":\"9780747575443\"}");
+        // list.add("{\"param\":\"9780747575443\"}");
         validateStocks(list);
     }
 
     @Test
     public void searchBook() {
+        isbn.clear();
+        bookName.clear();
+        bookAuthors.clear();
+        thumbnail.clear();
+
+        isbn.add("9782070513178");
+        bookName.add("Charlie et la Chocolaterie");
+        bookAuthors.add("Roald Dahl");
+        thumbnail.add("https://covers.openlibrary.org/b/id/3076786-M.jpg");
+
+        isbn.add("9780756982133");
+        bookName.add("Charlie and the Chocolate Factory");
+        bookAuthors.add("Roald Dahl");
+        thumbnail.add("https://covers.openlibrary.org/b/id/8672180-M.jpg");
+
         List<Object> list = new ArrayList<Object>();
         list.add("{\"param\":\"Charlie and the chocolate factory\"}");
-        list.add("{\"param\":\"Alice's Adventures in Wonderland\"}");
-        list.add("{\"param\":\"Harry Potter\"}");
+        // list.add("{\"param\":\"Alice's Adventures in Wonderland\"}");
+
         validateStocks(list);
     }
 }

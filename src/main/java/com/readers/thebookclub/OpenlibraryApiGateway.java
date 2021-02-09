@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class OpenlibraryApiGateway {
 
     final private String prefix, searchPrefix, suffix, detailSuffix;
-    final int isbnLength, maxIsbn;
+    final int isbnLength, maxIsbn, maxStocks;
     private URL url, detailUrl, searchUrl;
     private String isbn, isbnKey, param;
     private List<String> isbnList;
@@ -26,7 +26,8 @@ public class OpenlibraryApiGateway {
         this.detailSuffix = "&jscmd=details&format=json";
         this.statusCode = 200;
         this.isbnLength = 13;
-        this.maxIsbn = 2;
+        this.maxIsbn = 20;
+        this.maxStocks = 2;
     }
 
     public OpenlibraryApiGateway(Object param) {
@@ -85,8 +86,13 @@ public class OpenlibraryApiGateway {
 
         List<Stock> stocks = new ArrayList<Stock>();
 
-        for (String isbn : isbnList)
-            stocks.add(getStock(isbn));
+        for (String isbn : isbnList){
+            Stock stock = getStock(isbn);
+            if(stock != null)
+                stocks.add(stock);
+            if(stocks.size()==maxStocks)
+                return stocks;
+        }
 
         if (stocks.size() == 0)
             this.statusCode = 500;
@@ -126,15 +132,16 @@ public class OpenlibraryApiGateway {
                     bookAuthors = bookAuthors.substring(0, bookAuthors.length() - 2);
 
                 if (book.get("cover") != null && book.get("cover").isObject()) {
-                    if (book.get("cover").get("small") != null)
-                        thumbnail = String.valueOf(book.get("cover").get("small")).replaceAll("\"", "");
-                    else if (book.get("cover").get("medium") != null)
+                    if (book.get("cover").get("medium") != null)
                         thumbnail = String.valueOf(book.get("cover").get("medium")).replaceAll("\"", "");
+                    else if (book.get("cover").get("small") != null)
+                        thumbnail = String.valueOf(book.get("cover").get("small")).replaceAll("\"", "");
 
                     // if(bookDetail.get("description") != null)
                     //     bookDescription = String.valueOf(bookDetail.get("description")).replaceAll("\"", "");
                 }
-                stock = new Stock(isbn, bookName, bookAuthors, thumbnail, bookDescription);
+                if(bookName != "" && bookAuthors != "" && thumbnail != "")
+                    stock = new Stock(isbn, bookName, bookAuthors, thumbnail, bookDescription);
             }
         } catch (Exception e) {
             if (this.statusCode != 400)

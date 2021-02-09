@@ -18,9 +18,9 @@ jobs:
         java-version: 1.8
     - name: testSetup
       run: mvn test -Dtest=TestApi#testSetup
-#     - name: serchBook
-#       run: mvn test -Dtest=TestApi#searchBook
+    - name: serchBook
+      run: mvn test -Dtest=TestApi#searchBook
     - name: checkStocksByIsbn
       run: mvn test -Dtest=TestApi#checkStocksByIsbn
-#     - name: searchBookByIsbn
-#       run: mvn test -Dtest=TestApi#searchBookByIsbn
+    # - name: searchBookByIsbn
+    #   run: mvn test -Dtest=TestApi#searchBookByIsbn

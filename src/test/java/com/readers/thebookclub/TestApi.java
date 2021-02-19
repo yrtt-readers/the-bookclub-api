@@ -9,11 +9,11 @@ import java.util.ArrayList;
 
 public class TestApi {
 
-    private ArrayList<String> isbn = new ArrayList<String>();
-    private ArrayList<String> bookName = new ArrayList<String>();
-    private ArrayList<String> bookAuthors = new ArrayList<String>();
-    private ArrayList<String> thumbnail = new ArrayList<String>();
-    private ArrayList<String> bookDescription = new ArrayList<String>();
+    private ArrayList<String> isbn = new ArrayList<>();
+    private ArrayList<String> bookName = new ArrayList<>();
+    private ArrayList<String> bookAuthors = new ArrayList<>();
+    private ArrayList<String> thumbnail = new ArrayList<>();
+    private ArrayList<String> bookDescription = new ArrayList<>();
 
     private void validateStocks(List<Object> list) {
         for (Object param : list) {
@@ -45,34 +45,19 @@ public class TestApi {
     }
 
     @Test
-    public void checkStocksByIsbn() {
-
-        List<Object> list = new ArrayList<Object>();
-        list.add("{\"param\":\"9782070513178\"}");
-
+    public void searchBookByIsbn() {
         isbn.clear();
         bookName.clear();
         bookAuthors.clear();
         thumbnail.clear();
-
-        isbn.add("9782070513178");
-        bookName.add("Charlie et la Chocolaterie");
-        bookAuthors.add("Roald Dahl");
-        thumbnail.add("https://covers.openlibrary.org/b/id/3076786-M.jpg");
 
         isbn.add("9780756982133");
         bookName.add("Charlie and the Chocolate Factory");
         bookAuthors.add("Roald Dahl");
         thumbnail.add("https://covers.openlibrary.org/b/id/8672180-M.jpg");
 
-        validateStocks(list);
-    }
-
-    @Test
-    public void searchBookByIsbn() {
-
-        List<Object> list = new ArrayList<Object>();
-        // list.add("{\"param\":\"9780747575443\"}");
+        List<Object> list = new ArrayList<>();
+        list.add("{\"param\":\"9780756982133\"}");
         validateStocks(list);
     }
 
@@ -83,19 +68,18 @@ public class TestApi {
         bookAuthors.clear();
         thumbnail.clear();
 
-        isbn.add("9782070513178");
-        bookName.add("Charlie et la Chocolaterie");
-        bookAuthors.add("Roald Dahl");
-        thumbnail.add("https://covers.openlibrary.org/b/id/3076786-M.jpg");
+        isbn.add("9781782011057");
+        bookName.add("Elucidating Alice: A Textual Commentary on Alice's Adventures in Wonderland");
+        bookAuthors.add("Lewis Carroll");
+        thumbnail.add("https://covers.openlibrary.org/b/id/8788680-M.jpg");
 
-        isbn.add("9780756982133");
-        bookName.add("Charlie and the Chocolate Factory");
-        bookAuthors.add("Roald Dahl");
-        thumbnail.add("https://covers.openlibrary.org/b/id/8672180-M.jpg");
+        isbn.add("9781598188844");
+        bookName.add("Alice in Wonderland");
+        bookAuthors.add("Lewis Carroll");
+        thumbnail.add("https://covers.openlibrary.org/b/id/2003152-M.jpg");
 
-        List<Object> list = new ArrayList<Object>();
-        list.add("{\"param\":\"Charlie and the chocolate factory\"}");
-        // list.add("{\"param\":\"Alice's Adventures in Wonderland\"}");
+        List<Object> list = new ArrayList<>();
+        list.add("{\"param\":\"Alice's Adventures in Wonderland\"}");
 
         validateStocks(list);
     }

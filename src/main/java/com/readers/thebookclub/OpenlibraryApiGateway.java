@@ -1,73 +1,79 @@
 package com.readers.thebookclub;
 
-import java.net.URL;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 
 public class OpenlibraryApiGateway {
 
+    final int isbnLength, maxStocks;
     final private String prefix, searchPrefix, suffix, detailSuffix;
-    final int isbnLength, maxIsbn, maxStocks;
     private URL url, detailUrl, searchUrl;
     private String isbn, isbnKey, param;
-    private List<String> isbnList;
     private int statusCode;
 
     private OpenlibraryApiGateway() {
-
         this.prefix = "https://openlibrary.org/api/books?bibkeys=";
         this.searchPrefix = "http://openlibrary.org/search.json?q=";
         this.suffix = "&jscmd=data&format=json";
         this.detailSuffix = "&jscmd=details&format=json";
         this.statusCode = 200;
         this.isbnLength = 13;
-        this.maxIsbn = 20;
         this.maxStocks = 2;
     }
 
     public OpenlibraryApiGateway(Object param) {
-
         this();
-        isbnList = new ArrayList<String>();
+        this.param = String.valueOf(param).substring(7, String.valueOf(param).length() - 1);
+        if (!this.param.matches("[0-9]+") || this.param.length() != this.isbnLength){
+            this.param = this.param.replaceAll("[ ]", "+");
+            this.param = this.param.replaceAll("[^A-Za-z0-9+]", "");
+        }
+    }
+
+
+    public List<Stock> getStocks() {
+
+        List<Stock> stocks = new ArrayList<>();
 
         try {
-            this.param = String.valueOf(param).substring(7, String.valueOf(param).length() - 1);
             if (this.param.matches("[0-9]+") && this.param.length() == this.isbnLength)
-                isbnList.add(this.param);
-            else {
-                this.param = this.param.replaceAll("[^A-Za-z0-9]", "+");
+                stocks.add(getStock(this.param));
+            else
+            {
                 this.searchUrl = new URL(searchPrefix + this.param);
                 Iterator<JsonNode> tree =
-                        new ObjectMapper()
-                                .readTree(this.searchUrl)
-                                .get("docs").elements();
+                    new ObjectMapper()
+                    .readTree(this.searchUrl)
+                    .get("docs").elements();
 
                 while (tree.hasNext()) {
-                    JsonNode node = tree.next();
-                    Iterator<String> list = node.fieldNames();
+                JsonNode node = tree.next();
+                Iterator<String> list = node.fieldNames();
 
                     while (list.hasNext()) {
-                        String isbnName = list.next();
+                    String isbnName = list.next();
 
-                        if (isbnName.equals("isbn")) {
-                            Iterator<JsonNode> isbnTree =
-                                    node.get(isbnName).elements();
+                    if (isbnName.equals("isbn")) {
+                    Iterator<JsonNode> isbnTree =
+                    node.get(isbnName).elements();
 
-                            while (isbnTree.hasNext()) {
-                                JsonNode isbnNode = isbnTree.next();
-                                String isbn = isbnNode.textValue();
+                        while (isbnTree.hasNext()) {
+                        JsonNode isbnNode = isbnTree.next();
+                        String isbn = isbnNode.textValue();
 
-                                if (isbn.matches("[0-9]+") && isbn.length() ==
-                                        this.isbnLength && isbnList.size() <= this.maxIsbn) {
-                                    isbnList.add(isbn);
-
-                                    if (isbnList.size() == this.maxIsbn)
-                                        return;
+                            if (isbn.matches("[0-9]+") &&
+                            isbn.length() == this.isbnLength &&
+                            stocks.size() <= this.maxStocks){
+                                Stock stock = getStock(isbn);
+                                if (this.statusCode==200 && stock!=null)
+                                    stocks.add(stock);
+                                if(stocks.size() == this.maxStocks)
+                                    return stocks;
                                 }
                             }
                         }
@@ -78,20 +84,6 @@ public class OpenlibraryApiGateway {
             if (this.statusCode != 401)
                 this.statusCode = 503;
             e.printStackTrace();
-        }
-    }
-
-
-    public List<Stock> getStocks() {
-
-        List<Stock> stocks = new ArrayList<Stock>();
-
-        for (String isbn : isbnList){
-            Stock stock = getStock(isbn);
-            if(stock != null)
-                stocks.add(stock);
-            if(stocks.size()==maxStocks)
-                return stocks;
         }
 
         if (stocks.size() == 0)
@@ -117,7 +109,10 @@ public class OpenlibraryApiGateway {
             this.detailUrl = new URL(prefix + this.isbnKey + detailSuffix);
 
             JsonNode book, bookDetail;
-            String bookName = "", bookAuthors = "", thumbnail = "", bookDescription = "";
+            String bookName;
+            StringBuilder bookAuthors = new StringBuilder();
+            String thumbnail = "";
+            String bookDescription = "";
             book = new ObjectMapper().readTree(url).get(this.isbnKey);
             // bookDetail = new ObjectMapper().readTree(this.detailUrl).get(this.isbnKey);
 
@@ -126,10 +121,10 @@ public class OpenlibraryApiGateway {
 
                 if (book.get("authors") != null && book.get("authors").isArray())
                     for (JsonNode author : book.get("authors"))
-                        bookAuthors += String.valueOf(author.get("name")).replaceAll("\"", "") + ", ";
+                        bookAuthors.append(String.valueOf(author.get("name")).replaceAll("\"", "")).append(", ");
 
                 if (bookAuthors.length() > 2)
-                    bookAuthors = bookAuthors.substring(0, bookAuthors.length() - 2);
+                    bookAuthors = new StringBuilder(bookAuthors.substring(0, bookAuthors.length() - 2));
 
                 if (book.get("cover") != null && book.get("cover").isObject()) {
                     if (book.get("cover").get("medium") != null)
@@ -140,17 +135,16 @@ public class OpenlibraryApiGateway {
                     // if(bookDetail.get("description") != null)
                     //     bookDescription = String.valueOf(bookDetail.get("description")).replaceAll("\"", "");
                 }
-                if(bookName != "" && bookAuthors != "" && thumbnail != "")
-                    stock = new Stock(isbn, bookName, bookAuthors, thumbnail, bookDescription);
+                if (!bookName.equals("") && !bookAuthors.toString().equals("") && !thumbnail.equals(""))
+                    stock = new Stock(isbn, bookName, bookAuthors.toString(), thumbnail, bookDescription);
             }
         } catch (Exception e) {
             if (this.statusCode != 400)
                 this.statusCode = 400;
             System.out.println("param: " + this.param);
             e.printStackTrace();
-        } finally {
-            return stock;
         }
+        return stock;
     }
 
     public int getStatusCode() {

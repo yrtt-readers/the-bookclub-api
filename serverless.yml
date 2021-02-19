@@ -18,20 +18,26 @@ functions:
     handler: com.readers.thebookclub.Handler
     description: pass param to search books (not in stock)
     events:
-      - httpApi:
+      - http:
           path: /search/books/{param}
           method: GET
+          cors:
+            origin: '*'
   testStock:
     handler: com.readers.thebookclub.Handler
     description: test function to return a single stock
     events:
-      - httpApi:
+      - http:
           path: /test/stock/{param}
           method: GET
+          cors:
+            origin: '*'
   testInput:
     handler: com.readers.thebookclub.Handler
     description: test function to validate input
     events:
-      - httpApi:
+      - http:
           path: /test/input/{param}
           method: GET
+          cors:
+            origin: '*'

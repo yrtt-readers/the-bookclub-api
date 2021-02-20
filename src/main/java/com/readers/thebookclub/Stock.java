@@ -29,9 +29,8 @@ public class Stock {
     public Stock(String isbn,
                  String bookName,
                  String bookAuthors,
-                 String thumbnail,
-                 String bookDescription) {
-        this(isbn, 0, bookName, bookAuthors, null, thumbnail, bookDescription);
+                 String thumbnail) {
+        this(isbn, 0, bookName, bookAuthors, null, thumbnail, null);
     }
 
     public Stock(String isbn,

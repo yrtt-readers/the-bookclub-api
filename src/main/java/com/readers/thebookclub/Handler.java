@@ -17,37 +17,31 @@ public class Handler implements RequestHandler<Map<String, Object>, ApiGatewayRe
 	public ApiGatewayResponse handleRequest(Map<String, Object> input, Context context) {
 
 		LOG.info("received: {}", input);
-		OpenlibraryApiGateway og;
+		OpenLibraryApiGateway og;
 
-		if(context.getFunctionName().equals("the-bookclub-op-api-dev-searchBooks")){
-
-			og = new OpenlibraryApiGateway(input.get("pathParameters"));
-
-			return ApiGatewayResponse.builder()
-				.setObjectBody(og.getStocks())
-				.setStatusCode(og.getStatusCode())
-				.build();
-		}
-		else if(context.getFunctionName().equals("the-bookclub-op-api-dev-testStock")){
-
-			og = new OpenlibraryApiGateway(("{\"param\":\"9780001006874\"}"));
-			
-			return ApiGatewayResponse.builder()
-				.setObjectBody(og.getStocks())
-				.setStatusCode(og.getStatusCode())
-				.build();
-		}
-		else if(context.getFunctionName().equals("the-bookclub-op-api-dev-testInput")){
-			return ApiGatewayResponse.builder()
-				.setObjectBody(String.valueOf(input.get("pathParameters")))
-				.setStatusCode(200)
-				.build();
-		}
-		else {
-			return ApiGatewayResponse.builder()
-				.setObjectBody("other")
-				.setStatusCode(200)
-				.build();
+		switch (context.getFunctionName()){
+			case "the-bookclub-op-api-dev-searchBooks":
+				og = new OpenLibraryApiGateway(input.get("pathParameters"));
+				return ApiGatewayResponse.builder()
+						.setObjectBody(og.getStocks())
+						.setStatusCode(og.getStatusCode())
+						.build();
+			case "the-bookclub-op-api-dev-testStock":
+				og = new OpenLibraryApiGateway(("{\"param\":\"9780001006874\"}"));
+				return ApiGatewayResponse.builder()
+						.setObjectBody(og.getStocks())
+						.setStatusCode(og.getStatusCode())
+						.build();
+			case "the-bookclub-op-api-dev-testInput":
+				return ApiGatewayResponse.builder()
+						.setObjectBody(String.valueOf(input.get("pathParameters")))
+						.setStatusCode(200)
+						.build();
+			default:
+				return ApiGatewayResponse.builder()
+						.setObjectBody("other")
+						.setStatusCode(200)
+						.build();
 		}
 	}
 }

@@ -1,24 +1,21 @@
 package com.readers.thebookclub;
 
 import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
-
 import java.util.List;
 import java.util.ArrayList;
 
 public class TestApi {
 
-    private ArrayList<String> isbn = new ArrayList<>();
-    private ArrayList<String> bookName = new ArrayList<>();
-    private ArrayList<String> bookAuthors = new ArrayList<>();
-    private ArrayList<String> thumbnail = new ArrayList<>();
-    private ArrayList<String> bookDescription = new ArrayList<>();
+    private final ArrayList<String> isbn = new ArrayList<>();
+    private final ArrayList<String> bookName = new ArrayList<>();
+    private final ArrayList<String> bookAuthors = new ArrayList<>();
+    private final ArrayList<String> thumbnail = new ArrayList<>();
 
     private void validateStocks(List<Object> list) {
         for (Object param : list) {
-            OpenlibraryApiGateway og =
-                    new OpenlibraryApiGateway(param);
+            OpenLibraryApiGateway og =
+                    new OpenLibraryApiGateway(param);
             if (og.getStatusCode() != 200)
                 System.out.println(ErrorHandler.message.get(og.getStatusCode()));
             else {

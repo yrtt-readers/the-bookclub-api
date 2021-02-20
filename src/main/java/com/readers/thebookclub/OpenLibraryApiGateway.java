@@ -12,7 +12,6 @@ public class OpenLibraryApiGateway {
 
     final int isbnLength, maxStocks;
     final private String prefix, searchPrefix, suffix;
-    private URL url, searchUrl;
     private String param;
     private int statusCode;
 
@@ -42,10 +41,10 @@ public class OpenLibraryApiGateway {
             if (this.param.matches("[0-9]+") && this.param.length() == this.isbnLength)
                 stocks.add(getStock(this.param));
             else {
-                this.searchUrl = new URL(searchPrefix + this.param);
+                URL url = new URL(searchPrefix + this.param);
                 Iterator<JsonNode> tree =
                         new ObjectMapper()
-                                .readTree(this.searchUrl)
+                                .readTree(url)
                                 .get("docs").elements();
 
                 while (tree.hasNext()) {
@@ -100,7 +99,7 @@ public class OpenLibraryApiGateway {
                 throw new Exception();
             }
 
-            this.url = new URL(prefix + "ISBN:" + isbn + suffix);
+            URL url = new URL(prefix + "ISBN:" + isbn + suffix);
 
             JsonNode book;
             String bookName;
